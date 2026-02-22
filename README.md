@@ -1,7 +1,7 @@
 # MAGNETO
 ### *Master of Magnetism — Memory Engine for AI Agents*
 
-![Magneto](https://upload.wikimedia.org/wikipedia/en/e/e3/Magneto-X-Men.JPG)
+![Magneto](magneto-face.png)
 
 **Homo Superior. Code Superior.**
 
