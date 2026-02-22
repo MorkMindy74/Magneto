@@ -1,6 +1,7 @@
 import { Database } from './sqlite-compat.js';
 import type { PendingMessage } from '../worker-types.js';
 import { logger } from '../../utils/logger.js';
+import { safeJsonParse } from '../../utils/safe-json.js';
 
 /** Messages processing longer than this are considered stale and reset to pending by self-healing */
 const STALE_PROCESSING_THRESHOLD_MS = 60_000;
@@ -466,8 +467,8 @@ export class PendingMessageStore {
     return {
       type: persistent.message_type,
       tool_name: persistent.tool_name || undefined,
-      tool_input: persistent.tool_input ? JSON.parse(persistent.tool_input) : undefined,
-      tool_response: persistent.tool_response ? JSON.parse(persistent.tool_response) : undefined,
+      tool_input: persistent.tool_input ? safeJsonParse(persistent.tool_input, undefined, 'PendingMessageStore.tool_input') : undefined,
+      tool_response: persistent.tool_response ? safeJsonParse(persistent.tool_response, undefined, 'PendingMessageStore.tool_response') : undefined,
       prompt_number: persistent.prompt_number ?? undefined,
       cwd: persistent.cwd || undefined,
       last_assistant_message: persistent.last_assistant_message || undefined

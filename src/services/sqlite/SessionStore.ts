@@ -13,6 +13,7 @@ import {
   LatestPromptResult
 } from '../../types/database.js';
 import type { PendingMessageStore } from './PendingMessageStore.js';
+import { safeJsonParse } from '../../utils/safe-json.js';
 
 /**
  * Session data store for SDK sessions, observations, and summaries
@@ -1260,7 +1261,7 @@ export class SessionStore {
     for (const row of rows) {
       // Parse files_read
       if (row.files_read) {
-        const files = JSON.parse(row.files_read);
+        const files = safeJsonParse<string[]>(row.files_read, [], 'SessionStore.getFilesForSession.files_read');
         if (Array.isArray(files)) {
           files.forEach(f => filesReadSet.add(f));
         }
@@ -1268,7 +1269,7 @@ export class SessionStore {
 
       // Parse files_modified
       if (row.files_modified) {
-        const files = JSON.parse(row.files_modified);
+        const files = safeJsonParse<string[]>(row.files_modified, [], 'SessionStore.getFilesForSession.files_modified');
         if (Array.isArray(files)) {
           files.forEach(f => filesModifiedSet.add(f));
         }

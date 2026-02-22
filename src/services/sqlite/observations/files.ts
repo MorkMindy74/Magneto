@@ -6,6 +6,7 @@
 import { Database } from 'bun:sqlite';
 import { logger } from '../../../utils/logger.js';
 import type { SessionFilesResult } from './types.js';
+import { safeJsonParse } from '../../../utils/safe-json.js';
 
 /**
  * Get aggregated files from all observations for a session
@@ -31,7 +32,7 @@ export function getFilesForSession(
   for (const row of rows) {
     // Parse files_read
     if (row.files_read) {
-      const files = JSON.parse(row.files_read);
+      const files = safeJsonParse<string[]>(row.files_read, [], 'observations/files.getFilesForSession.files_read');
       if (Array.isArray(files)) {
         files.forEach(f => filesReadSet.add(f));
       }
@@ -39,7 +40,7 @@ export function getFilesForSession(
 
     // Parse files_modified
     if (row.files_modified) {
-      const files = JSON.parse(row.files_modified);
+      const files = safeJsonParse<string[]>(row.files_modified, [], 'observations/files.getFilesForSession.files_modified');
       if (Array.isArray(files)) {
         files.forEach(f => filesModifiedSet.add(f));
       }
