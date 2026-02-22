@@ -195,7 +195,7 @@ export class ChromaSync {
       memory_session_id: summary.memory_session_id,
       project: summary.project,
       created_at_epoch: summary.created_at_epoch,
-      prompt_number: summary.prompt_number || 0
+      prompt_number: summary.prompt_number ?? 0
     };
 
     // Each field becomes a separate document

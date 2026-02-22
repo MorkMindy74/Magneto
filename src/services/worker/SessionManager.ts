@@ -86,7 +86,7 @@ export class SessionManager {
           newPrompt: currentUserPrompt.substring(0, 80)
         });
         session.userPrompt = currentUserPrompt;
-        session.lastPromptNumber = promptNumber || session.lastPromptNumber;
+        session.lastPromptNumber = promptNumber ?? session.lastPromptNumber;
       } else {
         logger.debug('SESSION', 'No currentUserPrompt provided for existing session', {
           sessionDbId,
@@ -147,7 +147,7 @@ export class SessionManager {
       pendingMessages: [],
       abortController: new AbortController(),
       generatorPromise: null,
-      lastPromptNumber: promptNumber || this.dbManager.getSessionStore().getPromptNumberFromUserPrompts(dbSession.content_session_id),
+      lastPromptNumber: promptNumber ?? this.dbManager.getSessionStore().getPromptNumberFromUserPrompts(dbSession.content_session_id),
       startTime: Date.now(),
       cumulativeInputTokens: 0,
       cumulativeOutputTokens: 0,
@@ -163,7 +163,7 @@ export class SessionManager {
       contentSessionId: dbSession.content_session_id,
       dbMemorySessionId: dbSession.memory_session_id || '(none in DB)',
       memorySessionId: '(cleared - will capture fresh from SDK)',
-      lastPromptNumber: promptNumber || this.dbManager.getSessionStore().getPromptNumberFromUserPrompts(dbSession.content_session_id)
+      lastPromptNumber: promptNumber ?? this.dbManager.getSessionStore().getPromptNumberFromUserPrompts(dbSession.content_session_id)
     });
 
     this.sessions.set(sessionDbId, session);
